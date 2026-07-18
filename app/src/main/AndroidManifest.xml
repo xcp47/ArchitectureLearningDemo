@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+          冒号开头表示私有进程。Activity 在主进程，RoomCoreService 在 :room_core
+          进程，所以即使它们属于同一个 APK，所有 AIDL 调用也是真实 IPC。
+        -->
+        <service
+            android:name=".service.RoomCoreService"
+            android:exported="false"
+            android:process=":room_core" />
+
+    </application>
+</manifest>
