@@ -17,6 +17,15 @@
         </activity>
 
         <!--
+          被控端效果页也运行在 :room_core。页面中的明暗模式和倒计时只消费
+          RoomCoreService 的最终状态，不在按钮点击时自行伪造结果。
+        -->
+        <activity
+            android:name=".DevicePreviewActivity"
+            android:exported="false"
+            android:process=":room_core" />
+
+        <!--
           冒号开头表示私有进程。Activity 在主进程，RoomCoreService 在 :room_core
           进程，所以即使它们属于同一个 APK，所有 AIDL 调用也是真实 IPC。
         -->

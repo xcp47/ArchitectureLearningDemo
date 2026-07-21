@@ -127,6 +127,7 @@ public class RoomCoreService extends Service {
     private final class TimerBinder extends ITimerService.Stub {
         private final RemoteCallbackList<ITimerCallback> callbacks = new RemoteCallbackList<>();
         private int remainingSeconds;
+        private int totalSeconds;
         private boolean running;
 
         private final Runnable ticker = new Runnable() {
@@ -171,6 +172,7 @@ public class RoomCoreService extends Service {
             handler.post(() -> {
                 handler.removeCallbacks(ticker);
                 remainingSeconds = seconds;
+                totalSeconds = seconds;
                 running = true;
                 notifyAllClients();
                 handler.postDelayed(ticker, 1000L);
@@ -191,7 +193,7 @@ public class RoomCoreService extends Service {
 
         private void notifyOne(ITimerCallback callback) {
             try {
-                callback.onTimerChanged(remainingSeconds, running, Process.myPid());
+                callback.onTimerChanged(remainingSeconds, totalSeconds, running, Process.myPid());
             } catch (RemoteException ignored) {
                 // 客户端已离开时忽略本次通知。
             }

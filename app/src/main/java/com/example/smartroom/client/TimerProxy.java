@@ -17,7 +17,7 @@ public final class TimerProxy extends BaseFeatureProxy<ITimerService> {
     public interface Listener {
         void onTimerAvailabilityChanged(boolean available);
 
-        void onTimerChanged(int remainingSeconds, boolean running, int servicePid);
+        void onTimerChanged(int remainingSeconds, int totalSeconds, boolean running, int servicePid);
     }
 
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -25,10 +25,11 @@ public final class TimerProxy extends BaseFeatureProxy<ITimerService> {
 
     private final ITimerCallback callback = new ITimerCallback.Stub() {
         @Override
-        public void onTimerChanged(int remainingSeconds, boolean running, int servicePid) {
+        public void onTimerChanged(int remainingSeconds, int totalSeconds, boolean running,
+                                   int servicePid) {
             mainHandler.post(() -> {
                 for (Listener listener : listeners) {
-                    listener.onTimerChanged(remainingSeconds, running, servicePid);
+                    listener.onTimerChanged(remainingSeconds, totalSeconds, running, servicePid);
                 }
             });
         }

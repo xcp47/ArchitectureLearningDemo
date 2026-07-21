@@ -1,6 +1,7 @@
 package com.example.smartroom;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Process;
@@ -112,6 +113,10 @@ public class MainActivity extends Activity implements
             logBuffer.setLength(0);
             eventLog.setText("");
         });
+        findViewById(R.id.openDevicePreviewButton).setOnClickListener(view -> {
+            appendLog("打开运行在 :room_core 进程的被控端效果页");
+            startActivity(new Intent(this, DevicePreviewActivity.class));
+        });
 
         toggleLightButton.setOnClickListener(view -> {
             int result = lightProxy.setEnabled(!lightEnabled);
@@ -221,17 +226,18 @@ public class MainActivity extends Activity implements
     }
 
     @Override
-    public void onTimerChanged(int remainingSeconds, boolean running, int servicePid) {
+    public void onTimerChanged(int remainingSeconds, int totalSeconds, boolean running,
+                               int servicePid) {
         rememberRemotePid(servicePid);
-        if (running && remainingSeconds > timerTotal) {
-            timerTotal = remainingSeconds;
+        if (totalSeconds > 0) {
+            timerTotal = totalSeconds;
             timerProgress.setMax(timerTotal);
         }
         timerStatus.setText(running ? "剩余 " + remainingSeconds + " 秒" :
                 (remainingSeconds == 0 ? "未运行 / 已结束" : "已暂停"));
         timerProgress.setProgress(running ? Math.max(0, timerTotal - remainingSeconds) : 0);
-        appendLog("异步回调 → onTimerChanged(" + remainingSeconds + ", running=" + running
-                + ")，来自 PID=" + servicePid);
+        appendLog("异步回调 → onTimerChanged(" + remainingSeconds + "/" + totalSeconds
+                + ", running=" + running + ")，来自 PID=" + servicePid);
     }
 
     private void rememberRemotePid(int servicePid) {

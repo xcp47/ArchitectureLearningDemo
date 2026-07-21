@@ -9,4 +9,11 @@
     <color name="success">#16835B</color>
     <color name="danger">#C43C4E</color>
     <color name="divider">#DCE3EF</color>
+    <color name="device_dark">#101522</color>
+    <color name="device_dark_surface">#1D2738</color>
+    <color name="device_bright">#FFF2A8</color>
+    <color name="device_bright_surface">#FFF9DE</color>
+    <color name="device_clock">#18202D</color>
+    <color name="device_clock_text">#F8FAFC</color>
+    <color name="mode_inactive">#E8EDF5</color>
 </resources>

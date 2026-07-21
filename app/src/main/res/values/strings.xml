@@ -6,6 +6,7 @@
     <string name="connection_title">连接状态</string>
     <string name="connect">连接</string>
     <string name="disconnect">断开</string>
+    <string name="open_device_preview">查看被控端效果</string>
     <string name="light_title">领域一：灯光</string>
     <string name="toggle_light">开 / 关灯</string>
     <string name="brightness">亮度</string>
@@ -15,4 +16,10 @@
     <string name="cancel">取消</string>
     <string name="event_log">调用日志（先同步返回，后异步回调）</string>
     <string name="clear_log">清空日志</string>
+    <string name="device_preview_title">被控端模拟屏</string>
+    <string name="device_preview_subtitle">本页面运行在 :room_core 进程，只展示服务端最终状态</string>
+    <string name="bright_mode">明亮模式</string>
+    <string name="dark_mode">暗黑模式</string>
+    <string name="focus_clock">专注倒计时</string>
+    <string name="back_to_controller">返回控制端</string>
 </resources>
