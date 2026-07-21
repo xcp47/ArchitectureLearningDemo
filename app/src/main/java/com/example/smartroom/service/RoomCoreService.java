@@ -25,13 +25,20 @@ import com.example.smartroom.ipc.ServiceNames;
  * Service 的实现，只需增加一个 AIDL、一个 Binder 和一个路由分支。</p>
  */
 public class RoomCoreService extends Service {
+    /*
+     * AIDL 方法默认在 Binder 线程池执行。这里把真正的状态修改投递到 Service
+     * 主线程，既避免并发修改状态，也模拟“硬件命令需要一段时间才能完成”。
+     */
     private final Handler handler = new Handler(Looper.getMainLooper());
+
+    // 两个对象就是两个二级业务 Binder，它们共享同一个顶层 Service 生命周期。
     private final LightBinder lightBinder = new LightBinder();
     private final TimerBinder timerBinder = new TimerBinder();
 
     private final IServiceRouter.Stub routerBinder = new IServiceRouter.Stub() {
         @Override
         public IBinder getService(String serviceName) {
+            // 一级 Binder 只负责“查分机”，不在这里实现灯光或计时业务。
             if (ServiceNames.LIGHT.equals(serviceName)) {
                 return lightBinder;
             }
@@ -44,11 +51,13 @@ public class RoomCoreService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
+        // 客户端首次绑定拿到的是一级 Router，而不是某个具体业务接口。
         return routerBinder;
     }
 
     @Override
     public void onDestroy() {
+        // Service 销毁时取消所有未执行任务，避免 Runnable 继续引用旧 Service。
         handler.removeCallbacksAndMessages(null);
         lightBinder.destroy();
         timerBinder.destroy();
@@ -57,7 +66,13 @@ public class RoomCoreService extends Service {
 
     /** 灯光领域的服务端实现。RemoteCallbackList 能自动清理死亡的客户端 Binder。 */
     private final class LightBinder extends ILightService.Stub {
+        /*
+         * RemoteCallbackList 专门保存跨进程 Callback。
+         * 客户端进程死亡后，它能识别并清理对应 Binder。
+         */
         private final RemoteCallbackList<ILightCallback> callbacks = new RemoteCallbackList<>();
+
+        // 下面两个字段就是本示例用来代替真实灯具的“设备状态”。
         private boolean enabled;
         private int brightness = 50;
 
@@ -67,6 +82,8 @@ public class RoomCoreService extends Service {
                 return;
             }
             callbacks.register(callback);
+
+            // 新客户端一注册就补发当前状态，页面无需等待下一次操作。
             notifyOne(callback);
         }
 
@@ -108,6 +125,7 @@ public class RoomCoreService extends Service {
         }
 
         private void notifyAllClients() {
+            // beginBroadcast/finishBroadcast 必须成对出现，finally 保证一定收尾。
             int count = callbacks.beginBroadcast();
             try {
                 for (int index = 0; index < count; index++) {
@@ -126,16 +144,23 @@ public class RoomCoreService extends Service {
     /** 专注倒计时领域的服务端实现。 */
     private final class TimerBinder extends ITimerService.Stub {
         private final RemoteCallbackList<ITimerCallback> callbacks = new RemoteCallbackList<>();
+
+        // remaining 是当前剩余秒数；total 用于让页面显示“剩余 / 总时长”。
         private int remainingSeconds;
         private int totalSeconds;
         private boolean running;
 
+        /*
+         * ticker 是每秒执行一次的任务。它不会自己创建线程，而是反复投递到
+         * 上面的 Handler 所在线程。
+         */
         private final Runnable ticker = new Runnable() {
             @Override
             public void run() {
                 if (!running) {
                     return;
                 }
+                // 每次 tick 先减 1；到 0 后停止继续投递自己。
                 remainingSeconds--;
                 if (remainingSeconds <= 0) {
                     remainingSeconds = 0;
@@ -166,10 +191,12 @@ public class RoomCoreService extends Service {
 
         @Override
         public int start(int seconds) {
+            // 远端必须再次校验参数，不能完全相信客户端传入的数据。
             if (seconds < 1 || seconds > 60 * 60) {
                 return ResultCode.INVALID_ARGUMENT;
             }
             handler.post(() -> {
+                // 新计时开始前先移除旧 ticker，防止两个倒计时同时递减。
                 handler.removeCallbacks(ticker);
                 remainingSeconds = seconds;
                 totalSeconds = seconds;
@@ -200,6 +227,7 @@ public class RoomCoreService extends Service {
         }
 
         private void notifyAllClients() {
+            // beginBroadcast/finishBroadcast 必须成对出现，finally 保证一定收尾。
             int count = callbacks.beginBroadcast();
             try {
                 for (int index = 0; index < count; index++) {

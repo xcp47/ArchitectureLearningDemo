@@ -35,6 +35,7 @@
             android:background="@drawable/card_background"
             android:orientation="vertical">
 
+            <!-- 一级连接区：只显示 Router Binder 的状态和进程信息。 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,6 +98,7 @@
             android:background="@drawable/card_background"
             android:orientation="vertical">
 
+            <!-- 灯光领域区：按钮调用 LightProxy，最终状态由 Callback 刷新。 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -144,6 +146,7 @@
             android:background="@drawable/card_background"
             android:orientation="vertical">
 
+            <!-- 计时领域区：ProgressBar 展示 TimerBinder 每秒推送的进度。 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -209,6 +212,7 @@
             android:background="@drawable/card_background"
             android:orientation="vertical">
 
+            <!-- 教学日志区：用于对比同步返回和稍后到达的异步结果。 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

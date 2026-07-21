@@ -25,10 +25,15 @@ public final class DevicePreviewActivity extends Activity implements
         LightProxy.Listener,
         TimerProxy.Listener {
 
+    /*
+     * 这个 Activity 虽然和 Service 在同一个 :room_core 进程，但仍沿用
+     * Connection + Proxy + Listener，展示与控制端一致的分层方式。
+     */
     private final RoomConnection connection = RoomConnection.getInstance();
     private final LightProxy lightProxy = LightProxy.getInstance();
     private final TimerProxy timerProxy = TimerProxy.getInstance();
 
+    // 灯光区、模式标签和数字时钟对应 activity_device_preview.xml 中的控件。
     private View roomPanel;
     private View lightOrb;
     private TextView deviceConnectionStatus;
@@ -43,6 +48,8 @@ public final class DevicePreviewActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 初次创建页面时先显示默认暗色和 00 / 00，回调到达后再替换。
         setContentView(R.layout.activity_device_preview);
         bindViews();
         findViewById(R.id.closePreviewButton).setOnClickListener(view -> finish());
@@ -54,6 +61,8 @@ public final class DevicePreviewActivity extends Activity implements
     @Override
     protected void onStart() {
         super.onStart();
+
+        // 先注册页面 Listener，再启动 Proxy，防止漏掉注册时补发的初始状态。
         connection.addListener(this);
         lightProxy.addListener(this);
         timerProxy.addListener(this);
@@ -64,6 +73,7 @@ public final class DevicePreviewActivity extends Activity implements
 
     @Override
     protected void onStop() {
+        // 与 onStart 成对清理，避免不可见页面继续接收状态。
         lightProxy.removeListener(this);
         timerProxy.removeListener(this);
         connection.removeListener(this);
@@ -119,6 +129,7 @@ public final class DevicePreviewActivity extends Activity implements
     }
 
     @Override
+    /** 灯光最终状态到达后，才真正切换明亮/暗黑视觉效果。 */
     public void onLightChanged(boolean enabled, int brightness, int servicePid) {
         deviceProcessInfo.setText("被控端页面 / Service PID=" + servicePid);
         renderLight(enabled, brightness);
@@ -132,12 +143,14 @@ public final class DevicePreviewActivity extends Activity implements
     }
 
     @Override
+    /** TimerBinder 每秒推送一次，页面据此重画 XX / XX 数字。 */
     public void onTimerChanged(int remainingSeconds, int totalSeconds, boolean running,
                                int servicePid) {
         deviceProcessInfo.setText("被控端页面 / Service PID=" + servicePid);
         renderTimer(remainingSeconds, totalSeconds, running);
     }
 
+    /** 根据 enabled 选择两套 drawable；亮度值只展示服务端确认后的结果。 */
     private void renderLight(boolean enabled, int brightness) {
         roomPanel.setBackgroundResource(enabled
                 ? R.drawable.device_room_bright
@@ -164,6 +177,7 @@ public final class DevicePreviewActivity extends Activity implements
     }
 
     private void renderTimer(int remainingSeconds, int totalSeconds, boolean running) {
+        // %02d 会把 8 显示为 08，形成稳定的方框数字布局。
         timerDigits.setText(String.format(Locale.CHINA, "%02d / %02d",
                 Math.max(0, remainingSeconds), Math.max(0, totalSeconds)));
         if (running) {
