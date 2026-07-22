@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    被控端页面倒计时数字时钟的背景：深色圆角方块 + 浅色边框。
+    文字在这个深色背景上以白色高亮显示，模拟复古电子时钟效果。
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <solid android:color="@color/device_clock" />
-    <corners android:radius="18dp" />
-    <stroke android:width="2dp" android:color="#334155" />
+    <solid android:color="@color/device_clock" />        <!-- 深色背景 -->
+    <corners android:radius="18dp" />                     <!-- 圆角 -->
+    <stroke android:width="2dp" android:color="#334155" /> <!-- 浅色边框 -->
 </shape>

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    关灯状态下的灯泡图标：灰色圆形 + 灰色边框。
+    表示当前没有点亮，模拟真实灯泡的熄灭视觉效果。
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
-    <solid android:color="#344054" />
-    <stroke android:width="3dp" android:color="#667085" />
+    <solid android:color="#344054" />       <!-- 填充色：深灰色 -->
+    <stroke android:width="3dp" android:color="#667085" />  <!-- 边框：浅灰色 -->
 </shape>

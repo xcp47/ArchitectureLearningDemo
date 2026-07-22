@@ -1,3 +1,9 @@
+// ============================================================
+// 智能自习室 App 的根级构建脚本（项目级配置）
+// ============================================================
+
+// 声明项目使用的 Gradle 插件，但不立即应用（apply false）。
+// 子模块（app/build.gradle）中通过 id 'com.android.application' 应用它。
 plugins {
     id 'com.android.application' version '8.13.0' apply false
 }

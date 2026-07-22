@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--
+        双进程单 APK 演示：
+        - MainActivity（控制端）运行在默认主进程（APP 主进程）
+        - DevicePreviewActivity（被控端预览）和 RoomCoreService 运行在 :room_core 进程
+        两个进程走的是真实跨进程 Binder 通信，即使它们在同一个 APK 里。
+    -->
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--
+            主进程的 Activity（控制端）。
+            exported="true" + LAUNCHER 表示它是桌面图标的入口页面。
+        -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -17,8 +27,10 @@
         </activity>
 
         <!--
-          被控端效果页也运行在 :room_core。页面中的明暗模式和倒计时只消费
-          RoomCoreService 的最终状态，不在按钮点击时自行伪造结果。
+            被控端效果页：运行在 :room_core 进程。
+            exported="false" 表示不允许其他应用打开这个页面。
+            它在页面中展示 RoomCoreService 的灯光/倒计时最终状态，
+            本身不主动跨进程请求修改灯光或计时。
         -->
         <activity
             android:name=".DevicePreviewActivity"
@@ -26,8 +38,12 @@
             android:process=":room_core" />
 
         <!--
-          冒号开头表示私有进程。Activity 在主进程，RoomCoreService 在 :room_core
-          进程，所以即使它们属于同一个 APK，所有 AIDL 调用也是真实 IPC。
+            RoomCoreService：服务端进程的核心组件。
+            - android:process=":room_core" 表示它另起一个私有进程
+            - 服务端发布了一级 Router Binder，客户端绑定后先拿到 Router
+            - 然后通过 Router.getService() 获取灯光/计时两个二级 Binder
+            冒号开头的进程名（:room_core）是 Android 私有进程，
+            只有本应用可以绑定到该进程。
         -->
         <service
             android:name=".service.RoomCoreService"

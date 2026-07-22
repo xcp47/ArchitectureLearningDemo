@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    模式标签的"未选中"状态背景。
+    浅灰色填充，深色文字，表示当前不在该模式。
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <solid android:color="@color/mode_inactive" />
+    <solid android:color="@color/mode_inactive" />  <!-- 浅灰填充 -->
     <corners android:radius="20dp" />
     <padding android:left="14dp" android:top="11dp" android:right="14dp" android:bottom="11dp" />
 </shape>

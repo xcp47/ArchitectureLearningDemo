@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    开灯状态下的灯泡图标：从中心向外扩散的径向渐变。
+    中心白色 → 黄色，模拟真实灯泡发光的效果。
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
-    <gradient android:type="radial" android:gradientRadius="70dp" android:centerColor="#FFFFFF" android:endColor="#FFD84D" />
-    <stroke android:width="3dp" android:color="#F3BC22" />
+    <gradient
+        android:type="radial"
+        android:gradientRadius="70dp"
+        android:centerColor="#FFFFFF"       <!-- 中心高亮白色 -->
+        android:endColor="#FFD84D" />       <!-- 边缘暖黄色 -->
+    <stroke android:width="3dp" android:color="#F3BC22" />  <!-- 金色边框 -->
 </shape>

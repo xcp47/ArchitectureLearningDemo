@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    关灯模式的房间背景：从上到下的深蓝黑渐变 + 深色边框。
+    被控端页面默认使用这个暗色背景，直到 LightCallback 通知开灯。
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
     <gradient android:angle="270" android:startColor="@color/device_dark_surface" android:endColor="@color/device_dark" />
     <corners android:radius="22dp" />

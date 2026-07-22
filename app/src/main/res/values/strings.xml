@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- 应用名称，显示在系统桌面图标下方 -->
     <string name="app_name">架构学习：智能自习室</string>
+
+    <!-- ===== 主页面（MainActivity）标题区 ===== -->
     <string name="title">智能自习室</string>
     <string name="subtitle">一个 APK、两个进程、两级 Binder。UI 不直接碰 Service，只调用本地 Proxy。</string>
+
+    <!-- ===== 一级连接区 ===== -->
     <string name="connection_title">连接状态</string>
     <string name="connect">连接</string>
     <string name="disconnect">断开</string>
     <string name="open_device_preview">查看被控端效果</string>
+
+    <!-- ===== 灯光领域区 ===== -->
     <string name="light_title">领域一：灯光</string>
     <string name="toggle_light">开 / 关灯</string>
     <string name="brightness">亮度</string>
+
+    <!-- ===== 计时领域区 ===== -->
     <string name="timer_title">领域二：专注计时</string>
     <string name="start_10">开始 10 秒</string>
     <string name="start_30">开始 30 秒</string>
     <string name="cancel">取消</string>
+
+    <!-- ===== 教学日志区 ===== -->
     <string name="event_log">调用日志（先同步返回，后异步回调）</string>
     <string name="clear_log">清空日志</string>
+
+    <!-- ===== 被控端页面（DevicePreviewActivity）= -->
     <string name="device_preview_title">被控端模拟屏</string>
     <string name="device_preview_subtitle">本页面运行在 :room_core 进程，只展示服务端最终状态</string>
     <string name="bright_mode">明亮模式</string>
     <string name="dark_mode">暗黑模式</string>
     <string name="focus_clock">专注倒计时</string>
     <string name="back_to_controller">返回控制端</string>
+
 </resources>

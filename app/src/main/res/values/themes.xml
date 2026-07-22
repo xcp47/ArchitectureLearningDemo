@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--
+        全局主题，继承 Android 的 Material Light 风格且不带 ActionBar。
+        NoActionBar 表示不显示系统顶部标题栏，由我们自己用 XML 布局实现。
+    -->
     <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+
+        <!-- 全局默认字体 -->
         <item name="android:fontFamily">sans</item>
+
+        <!-- 强调色（Accent Color）：SeekBar/ProgressBar 等控件的选中颜色 -->
         <item name="android:colorAccent">@color/primary</item>
+
+        <!-- 底部导航栏和顶部状态栏的颜色 -->
         <item name="android:navigationBarColor">@color/page_background</item>
         <item name="android:statusBarColor">@color/page_background</item>
+
+        <!-- windowLightStatusBar = true 表示浅色背景上的状态栏图标用深色 -->
         <item name="android:windowLightStatusBar">true</item>
+
+        <!-- 全局窗口背景色 -->
         <item name="android:windowBackground">@color/page_background</item>
+
     </style>
+
 </resources>

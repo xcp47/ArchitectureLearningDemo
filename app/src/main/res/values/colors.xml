@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ===== 全局页面配色 ===== -->
+    <!-- 整个 Activity 的背景色，浅灰蓝色 -->
     <color name="page_background">#F4F7FB</color>
+    <!-- 卡片容器（LinearLayout）的背景色，白色 -->
     <color name="card_background">#FFFFFF</color>
+
+    <!-- 主题色（强调色），用于按钮/进度条等交互控件 -->
     <color name="primary">#3157D5</color>
     <color name="primary_dark">#223FA0</color>
+
+    <!-- 文字的深浅两色 -->
     <color name="text_primary">#172033</color>
     <color name="text_secondary">#667085</color>
+
+    <!-- 语义颜色：成功（已连接/倒计时中）和危险（未连接/异常） -->
     <color name="success">#16835B</color>
     <color name="danger">#C43C4E</color>
+
+    <!-- 分割线颜色 -->
     <color name="divider">#DCE3EF</color>
+
+    <!-- ===== 被控端页面（:room_core 进程）专用暗色主题 ===== -->
     <color name="device_dark">#101522</color>
     <color name="device_dark_surface">#1D2738</color>
+
+    <!-- ===== 被控端页面明亮模式配色 ===== -->
     <color name="device_bright">#FFF2A8</color>
     <color name="device_bright_surface">#FFF9DE</color>
+
+    <!-- 倒计时方框时钟的背景和文字 -->
     <color name="device_clock">#18202D</color>
     <color name="device_clock_text">#F8FAFC</color>
+
+    <!-- 明亮/暗黑两种模式中"未选中"标签底色 -->
     <color name="mode_inactive">#E8EDF5</color>
+
 </resources>

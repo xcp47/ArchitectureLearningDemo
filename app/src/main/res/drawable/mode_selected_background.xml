@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    模式标签的"选中"状态背景。
+    蓝色主色调填充，白色文字高亮，表示当前处于该模式。
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <solid android:color="@color/primary" />
+    <solid android:color="@color/primary" />  <!-- 蓝色填充 -->
     <corners android:radius="20dp" />
     <padding android:left="14dp" android:top="11dp" android:right="14dp" android:bottom="11dp" />
 </shape>

@@ -1,23 +1,40 @@
+// ============================================================
+// 智能自习室 App 的模块级构建脚本
+// ============================================================
+
+// 声明这是一个 Android 应用程序模块（区别于 Android Library）
 plugins {
     id 'com.android.application'
 }
 
 android {
+    // 应用唯一的命名空间，相当于 Java 包的根包名，用于 R 文件和资源查询
     namespace 'com.example.smartroom'
+
+    // 编译 SDK 版本：用哪个版本的 Android SDK API 来编译代码
     compileSdk 36
 
     defaultConfig {
+        // 应用的唯一标识，在设备上安装时以此区分不同的应用
         applicationId 'com.example.smartroom'
+
+        // 最低支持的 Android 版本（API 26 = Android 8.0）
         minSdk 26
+
+        // 目标 SDK 版本：表示在 API 36 上做过完整测试
         targetSdk 36
+
+        // 版本号（给程序看的整数）和版本名（给用户看的字符串）
         versionCode 1
         versionName '1.0'
     }
 
     buildFeatures {
+        // 开启 AIDL 编译支持。aidl 文件会被自动编译成 Java 接口。
         aidl true
     }
 
+    // Java 编译版本配置：使用 Java 11 的特性（如 var 类型推断等）
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11

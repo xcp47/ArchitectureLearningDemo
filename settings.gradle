@@ -1,12 +1,25 @@
+// ============================================================
+// 项目设置（settings.gradle）
+// 在 Gradle 构建的初始化阶段，先解析这个文件再构建子项目。
+// ============================================================
+
+// 插件管理：配置从哪里下载 Gradle 插件
 pluginManagement {
     repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
+        google()                 // Android 官方插件
+        mavenCentral()           // 开源 Java/Android 库
+        gradlePluginPortal()     // Gradle 社区插件
     }
 }
 
+// 使用 foojay 工具链解析器自动匹配 Java 版本
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.10.0'
+}
+
+// 依赖仓库管理：项目中的所有模块共享这里配置的仓库地址
 dependencyResolutionManagement {
+    // FAIL_ON_PROJECT_REPOS：子模块不能单独配置仓库，必须统一使用这里的配置
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
@@ -14,5 +27,8 @@ dependencyResolutionManagement {
     }
 }
 
+// 根项目名称（与 Android Studio 中显示的 Project 名称一致）
 rootProject.name = "ArchitectureLearningDemo"
+
+// 包含子模块：构建时编译 app 目录下的模块
 include ':app'
